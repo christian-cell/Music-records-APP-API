@@ -1,0 +1,21 @@
+.translater-main-container{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &__img-container{
+    width: 50%;
+    }
+
+    &__flags-img:hover{
+        cursor:pointer;
+    }
+
+    &__flags-img{
+        width: 45px ;
+        height: 35px;
+    }
+
+    
+}

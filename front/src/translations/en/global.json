@@ -1,0 +1,19 @@
+{
+    "HomePage":{
+        "signUpCreateEnjoy":"Login , Create , Modify and enjoy your play list",
+        "createAccount":"Create Account",
+        "signIn":"Sign In"
+    },
+
+    "RegisterForm":{
+        "registerCreateAccount":"Create Account",
+        "firstName":"First Name"
+    },
+
+    "Login":{
+        "HeaderLogin":"Log in this awsome app",
+        "Email":"Email",
+        "Password":"Password",
+        "Login":"Login"
+    }
+}

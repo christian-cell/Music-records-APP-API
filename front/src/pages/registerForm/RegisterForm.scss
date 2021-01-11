@@ -1,0 +1,163 @@
+.register-form-super-container {
+    &__span-signUp-container {
+        color: #ffd32a;
+        font-family: 'Abril Fatface', cursive;
+        font-family: 'Fredoka One', cursive;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 50px;
+        margin-top: 30px;
+
+    }
+
+    &__form-bin {
+        width: 80%;
+        margin: auto;
+    }
+
+    &__register-home-button-container {
+        background-color: #ffd32a;
+        border-radius: 10px;
+        margin-top: 20px;
+        height: 45px;
+    }
+
+    &__register-home-button {
+        background-color: #ffd32a;
+        width: 100%;
+        border-radius: 10px;
+        height: 45px;
+
+    }
+
+}
+
+.form-control {
+    background-color: #f6e58d;
+    color: white;
+}
+
+::-webkit-input-placeholder {
+    color: white
+}
+
+.card-body {
+    border-radius: 10px
+}
+
+.card-header {
+    font-family: 'Abril Fatface', cursive;
+    font-family: 'DM Serif Display', serif;
+    font-family: 'Fredoka One', cursive;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .register-form-super-container{
+
+    &__span-signUp-container{
+        color:#ffd32a;
+        font-family: 'Abril Fatface', cursive;
+        font-family: 'Fredoka One', cursive;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 50px;
+        margin-top:30px
+    }
+
+    &__register-input-label-container{
+        border:1px solid white;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    &__register-label-container{
+        border:1px solid white;
+        width: 30%;
+    }
+
+    &__register-inputs-container{
+        border:1px solid white;
+        width: 30%;
+    }
+
+    &__form-inputs{
+        border-right: none;
+        border-top:none;
+        border-left: none;
+        background-color: black;
+    }
+
+    &__form-container{
+        margin-top:190px
+    }
+
+    
+}
+
+ */

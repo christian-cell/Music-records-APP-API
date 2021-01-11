@@ -1,0 +1,20 @@
+{
+    "HomePage":{
+        "signUpCreateEnjoy":"Incia Sesión , Crea , Modifica y disfruta de tus canciones",
+        "createAccount":"Crea una cuenta",
+        "signIn":"Incia Sesión"
+    },
+
+    "RegisterForm":{
+        "registerCreateAccount":"Crea tu cuenta",
+        "firstName": "Primer Nombre"
+    },
+
+    "Login":{
+        "HeaderLogin":"Logeate a esta fabulosa app",
+        "Email":"Correo Electrónico",
+        "Password":"Contraseña",
+        "Login":"Logeate"
+
+    }
+}
