@@ -8,12 +8,14 @@ let multer = require('multer');
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/jpeg'];
 const IMAGES_URL_BASE = "/ProfileImages";
 
+/**************************************** CONFIGURACIÓN DE CLOUDINARY ************************************************/
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+/**************************************** TYPE FILES FILTER **********************************************************/
 const fileFilter = (req, file, cb) => {
     console.log(file);
     if (!VALID_FILE_TYPE.includes(file.mimetype)) {
@@ -23,6 +25,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
+/**************************************** SETTING UP THE FILES STORAGE **********************************************************/
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public' + IMAGES_URL_BASE)
@@ -31,10 +34,10 @@ let storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-
+/**************************************** setting up the  storage and the file filter *************************************/
 let upload = multer({ storage: storage, fileFilter: fileFilter });
 
-
+/**************************************** POST RECORDS **********************************************************/
 recordsRouter.post('/', (req, res) => {
     const record = req.body.record;
     const artist = req.body.artist;
@@ -62,7 +65,8 @@ recordsRouter.post('/', (req, res) => {
         })
 })
 
-recordsRouter.post('/userPost', upload.single('image'), (req, res) => {
+/**************************************** POST RECORDS **********************************************************/
+recordsRouter.post('/recordsPost', upload.single('image'), (req, res) => {
     
     cloudinary.uploader.upload(req.file.path, (error, result) => {
         // console.log(result.url);
@@ -77,8 +81,8 @@ recordsRouter.post('/userPost', upload.single('image'), (req, res) => {
         records.url = url;
         records.image = image;
         records.year = year;
-        records.artist = artist;
-        records.style = style;
+        records.artist = artist.toLowerCase();
+        records.style = style.toLowerCase();
 
         records.save()
             .then((newRecords) => {
@@ -92,6 +96,7 @@ recordsRouter.post('/userPost', upload.single('image'), (req, res) => {
 
 })
 
+/**************************************** GET RECORDS **********************************************************/
 recordsRouter.get('/', (req, res) => {
     Records.find({}, { __v: 0, createdAt: 0, updatedAt: 0 }).sort({"_id": -1})
         .then((records) => {
@@ -103,8 +108,33 @@ recordsRouter.get('/', (req, res) => {
         })
 })
 
+/**************************************** GET RECORDS BY YEAR **********************************************************/
+recordsRouter.get('/getByYear/:year',(req,res)=>{
+
+    const year = req.params.year;
+
+    Records.find({ year: year }, { __v:0 , createdAt:0 , updateAt:0 })
+    .then((recordByYear)=>{
+        res.json(recordByYear)
+    }).catch((error)=>{
+        res.status(500).send(error)
+    })
+})
 
 
+/**************************************** GET RECORDS BY ARTIST **********************************************************/
+recordsRouter.get('/getByArtist/:artist', (req, res)=>{
+    const artist = req.params.artist;
+    Records.find({ artist:artist } , { __v:0 , createdAt:0 , updatedAt:0 })
+    .then((recordByArtist)=>{
+        res.json(recordByArtist)
+    }).catch((error)=>{
+        res.status(500).send(error)
+    })
+})
+
+
+/**************************************** GET RECORDS BY ID **********************************************************/
 recordsRouter.get('/:id', (req, res) => {
     const id = req.params.id;
     Records.findById(id, { __v: 0, createdAt: 0, updatedAt: 0 })
@@ -115,6 +145,7 @@ recordsRouter.get('/:id', (req, res) => {
         })
 })
 
+/**************************************** GET RECORDS BY STYLE **********************************************************/
 recordsRouter.get('/getByStyle/:style' , (req,res)=>{
     const style = req.params.style;
     Records.find( { style: style } , { __v:0 ,createdAt:0 , updatedAt:0 } )
@@ -125,6 +156,18 @@ recordsRouter.get('/getByStyle/:style' , (req,res)=>{
     })
 })
 
+/**************************************** GET RECORDS BY ARTIST **********************************************************/
+recordsRouter.get('/getByArtist/:artist',(req,res)=>{
+    const artist = req.params.artist;
+    Records.find({ artist:artist } , { __v:0 ,createdAt:0 , updatedAt:0 })
+    .then((recordByArtist)=>{
+        res.json(recordByArtist)
+    }).catch((error)=>{
+        res.status(500).send(error)
+    })
+})
+
+/**************************************** DELETE RECORDS **********************************************************/
 recordsRouter.delete('/', (req, res) => {
     Records.deleteMany({}, { __v: 0, createdAt: 0, updatedAt: 0 })
         .then((allRecordsDeleted) => {
@@ -132,7 +175,7 @@ recordsRouter.delete('/', (req, res) => {
         })
 })
 
-
+/**************************************** DELETE RECORDS BY ID **********************************************************/
 recordsRouter.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
 
@@ -144,6 +187,7 @@ recordsRouter.delete('/delete/:id', (req, res) => {
         })
 })
 
+/**************************************** UPDATE RECORDS BY ID **********************************************************/
 recordsRouter.put('/:id', (req, res) => {
 
     const id = req.params.id;
