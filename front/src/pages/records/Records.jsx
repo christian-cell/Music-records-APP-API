@@ -27,13 +27,16 @@ export default function Records() {
   const onSubmit = e => {
     e.preventDefault();
     console.log('le diste al boton');
+    console.log(e.target.value)
     const infoForm = document.getElementById('recordsForm');
     const formData = new FormData(infoForm);
 
-    API.post('records/userPost', formData).then(res => {
+    console.log(infoForm)
+
+    API.post('records/recordsPost', formData).then(res => {
       console.log('record added successfully');
       window.location.href = "/records"
-    })
+    })  
   }
 
 
@@ -45,6 +48,18 @@ export default function Records() {
     API.delete('records/delete/' + id).then(res => {
       console.log('record deleted successfully');
       window.location.href = "/records"
+    })
+  }
+
+  const getDetailByYear = e => {
+    e.preventDefault();
+    var year = document.getElementById('inputYear').value;
+
+
+
+    API.get('/records/getByYear/' + year).then(res => {
+      console.log(res.data);
+      setRecords(res.data)
     })
   }
 
@@ -68,6 +83,19 @@ export default function Records() {
 
   }
 
+  const filterByArtist = e => {
+    e.preventDefault();
+    var artist = (e.target.value.toLowerCase())
+    console.log(artist);
+    API.get('/records/getByArtist/' + artist).then(res => {
+      setRecords(res.data);
+    })
+  }
+
+  const pasarMinusculas=(e)=>{
+    console.log(e.target.value.toLowerCase())
+  }
+
   console.log(records)
 
   return (
@@ -80,10 +108,11 @@ export default function Records() {
       <div>
         <form onSubmit={onSubmit} encType="multipart/form-data" id="recordsForm" >
           <legend> Add new Record </legend>
-          <input type="text" name="artist" placeholder="artist" />
-          <input type="text" name="style" placeholder="style" />
-          <input type="text" name="year" placeholder="year" />
-          <input type="file" name="image" />
+
+          <input onChange={pasarMinusculas} type="text" name="artist" placeholder="artist" />
+          <input onChange={pasarMinusculas} type="text" name="style" placeholder="style" />
+          <input onChange={pasarMinusculas} type="text" name="year" placeholder="year" />
+          <input onChange={pasarMinusculas} type="file" name="image" />
           <button> Add new Record </button>
         </form>
       </div>
@@ -102,6 +131,17 @@ export default function Records() {
         <div className=" filter-button-container__filter-button-son-container " >
           <button onClick={filterByStyle} name="pop" > Pop </button>
         </div>
+        <div className=" filter-button-container__filter-button-son-container " >
+          <input type="number" id="inputYear" />
+        </div>
+        <div>
+          <button onClick={getDetailByYear}  >filter by year</button>
+        </div>
+        <div>
+          <input type="text" id="filterArtist" placeholder="Filter by artist"
+            style={{ border: '1px solid black' }} onChange={filterByArtist}
+          />
+        </div>
       </div>
 
 
@@ -115,7 +155,7 @@ export default function Records() {
 
                 <div className="records-main-container__record-container">
                   <a href={record.url} className="urlRecords" >
-                  <div className="records-main-container__img-container" >
+                    <div className="records-main-container__img-container" >
                       <img
                         className="records-main-container__img"
                         src={record.image} alt="Records Images" />
@@ -142,9 +182,9 @@ export default function Records() {
               <div>
                 <button onClick={() => deleteRecord(record._id)}
                   className="records-main-container__delete-record-button "
-                  
+
                 >
-                  Delete 
+                  Delete
                 </button>
               </div>
 
